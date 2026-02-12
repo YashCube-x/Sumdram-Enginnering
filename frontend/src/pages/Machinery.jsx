@@ -1,25 +1,28 @@
-import ImagePlaceholder from '../components/ImagePlaceholder';
 import { Link } from 'react-router-dom';
 import { HiArrowRight } from 'react-icons/hi';
 
 const machines = [
   {
     name: 'CNC Machines',
+    image: '/images/cnc-machining.png',
     desc: 'Our computer numerical control machines deliver unmatched precision for complex parts. Capable of multi-axis operations, these machines handle intricate geometries with tight tolerances.',
     specs: ['Multi-axis capability', 'High precision (±0.01mm)', 'Automated tool changing', 'Large bed capacity'],
   },
   {
     name: 'Lathe Machines',
+    image: '/images/lathe-machine.png',
     desc: 'Industrial-grade lathe machines for precision turning operations. From small shafts to large diameter components, our lathes handle a wide range of turning requirements.',
     specs: ['Conventional & CNC options', 'Various chuck sizes', 'Heavy-duty spindle', 'Thread cutting capability'],
   },
   {
     name: 'Drilling Machines',
+    image: '/images/drilling-machine.png',
     desc: 'Radial and pillar drilling machines for accurate hole-making operations. Equipped for deep hole drilling, tapping, reaming, and counter boring applications.',
     specs: ['Radial drilling up to 50mm', 'Precision spindle', 'Auto feed mechanism', 'Multi-speed gearbox'],
   },
   {
     name: 'Milling Machines',
+    image: '/images/milling-machine.png',
     desc: 'Vertical and horizontal milling machines for flat surfaces, slots, pockets, and complex contours. Our milling department handles both conventional and advanced milling operations.',
     specs: ['Vertical & horizontal', 'Digital readout (DRO)', 'Power feed on all axes', 'Indexing head available'],
   },
@@ -29,8 +32,13 @@ export default function Machinery() {
   return (
     <div className="pt-20 lg:pt-24">
       {/* Hero Banner */}
-      <section className="py-16 lg:py-24 bg-gradient-to-b from-dark-900 to-dark-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/hero-bg.png" alt="Workshop" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-dark-950/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-900/50 to-dark-950"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Our Equipment</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-6">
             Our <span className="text-accent">Machinery</span>
@@ -44,16 +52,18 @@ export default function Machinery() {
       {/* Machines */}
       <section className="py-16 lg:py-24 bg-dark-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-12">
+          <div className="space-y-16">
             {machines.map((machine, idx) => (
               <div
                 key={machine.name}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${
-                  idx % 2 !== 0 ? 'lg:flex-row-reverse' : ''
-                }`}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center`}
               >
-                <div className={idx % 2 !== 0 ? 'lg:order-2' : ''}>
-                  <ImagePlaceholder label={`${machine.name} Image`} height="h-72" />
+                <div className={`rounded-xl overflow-hidden ${idx % 2 !== 0 ? 'lg:order-2' : ''}`}>
+                  <img
+                    src={machine.image}
+                    alt={`${machine.name}`}
+                    className="w-full h-72 object-cover hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
                 <div className={idx % 2 !== 0 ? 'lg:order-1' : ''}>
                   <h2 className="text-2xl font-bold text-white mb-4">{machine.name}</h2>
@@ -73,15 +83,21 @@ export default function Machinery() {
 
           {/* CTA */}
           <div className="mt-20 text-center">
-            <div className="bg-dark-800/50 border border-dark-700 rounded-2xl p-10">
-              <h2 className="text-2xl font-bold text-white mb-3">Want to See Our Workshop?</h2>
-              <p className="text-dark-300 mb-6 max-w-xl mx-auto">
-                Contact us to schedule a visit to our facility in Dhayri, Pune. See our machines in action.
-              </p>
-              <Link to="/contact" className="btn-primary gap-2">
-                Schedule a Visit
-                <HiArrowRight className="w-5 h-5" />
-              </Link>
+            <div className="relative rounded-2xl overflow-hidden">
+              <div className="absolute inset-0">
+                <img src="/images/metal-parts.png" alt="Parts" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-dark-950/85"></div>
+              </div>
+              <div className="relative p-10">
+                <h2 className="text-2xl font-bold text-white mb-3">Want to See Our Workshop?</h2>
+                <p className="text-dark-300 mb-6 max-w-xl mx-auto">
+                  Contact us to schedule a visit to our facility in Dhayri, Pune. See our machines in action.
+                </p>
+                <Link to="/contact" className="btn-primary gap-2">
+                  Schedule a Visit
+                  <HiArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 import { HiArrowRight, HiCog, HiCube, HiLightningBolt, HiViewGrid, HiAdjustments, HiClipboardList } from 'react-icons/hi';
-import ImagePlaceholder from '../components/ImagePlaceholder';
 
 const servicesPreview = [
   { icon: HiCog, title: 'CNC Machining', desc: 'High-precision computer-controlled machining for complex parts and components.' },
@@ -13,11 +12,10 @@ const servicesPreview = [
 ];
 
 const machines = [
-  { name: 'CNC Machines', desc: 'Computer Numerical Control precision machining' },
-  { name: 'Lathe Machines', desc: 'Precision turning and shaping operations' },
-  { name: 'Drilling Machines', desc: 'Industrial-grade drilling capabilities' },
-  { name: 'Milling Machines', desc: 'Multi-axis milling and contouring' },
-  
+  { name: 'CNC Machines', desc: 'Computer Numerical Control precision machining', image: '/images/cnc-machining.png' },
+  { name: 'Lathe Machines', desc: 'Precision turning and shaping operations', image: '/images/lathe-machine.png' },
+  { name: 'Drilling Machines', desc: 'Industrial-grade drilling capabilities', image: '/images/drilling-machine.png' },
+  { name: 'Milling Machines', desc: 'Multi-axis milling and contouring', image: '/images/milling-machine.png' },
 ];
 
 export default function Home() {
@@ -25,25 +23,36 @@ export default function Home() {
     <div>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-dark-950 via-dark-900 to-dark-950"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent/5 via-transparent to-transparent"></div>
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/hero-bg.png"
+            alt="CNC Workshop"
+            className="w-full h-full object-cover"
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-dark-950/75"></div>
+          {/* Gradient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-950/50 via-transparent to-dark-950/90"></div>
+        </div>
+        {/* Subtle radial accent */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent/8 via-transparent to-transparent"></div>
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40 text-center">
           <div className="animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-8 backdrop-blur-sm">
               <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
               Precision Engineering in Pune
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
               Sundaram
               <span className="block text-accent">Engineering</span>
             </h1>
 
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-dark-300 mb-10 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-dark-200 mb-10 leading-relaxed drop-shadow-lg">
               Precision CNC, Lathe, Drilling & Milling Services in Pune.
               Quality machining solutions for your manufacturing needs.
             </p>
@@ -57,7 +66,7 @@ export default function Home() {
                 href={`https://wa.me/XXXXXXXXXX?text=${encodeURIComponent('Hello Sundaram Engineering, I want to enquire about machining work.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-outline text-base px-8 py-4 gap-2 !border-green-500 !text-green-400 hover:!bg-green-500 hover:!text-white"
+                className="btn-outline text-base px-8 py-4 gap-2 !border-green-500 !text-green-400 hover:!bg-green-500 hover:!text-white backdrop-blur-sm"
               >
                 <FaWhatsapp className="w-5 h-5" />
                 WhatsApp Us
@@ -73,9 +82,9 @@ export default function Home() {
               { value: '50+', label: 'Active Clients' },
               { value: '99%', label: 'Quality Rate' },
             ].map((stat) => (
-              <div key={stat.label} className="text-center p-4">
+              <div key={stat.label} className="text-center p-4 bg-dark-900/30 backdrop-blur-sm rounded-xl border border-dark-700/30">
                 <div className="text-3xl sm:text-4xl font-black text-accent mb-1">{stat.value}</div>
-                <div className="text-sm text-dark-400">{stat.label}</div>
+                <div className="text-sm text-dark-300">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -131,7 +140,13 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {machines.map((machine) => (
               <div key={machine.name} className="bg-dark-800/50 border border-dark-700 rounded-xl overflow-hidden card-hover group">
-                <ImagePlaceholder label={machine.name} height="h-44" className="rounded-none border-0 border-b" />
+                <div className="h-44 overflow-hidden">
+                  <img
+                    src={machine.image}
+                    alt={machine.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
                 <div className="p-5">
                   <h3 className="text-base font-semibold text-white mb-1">{machine.name}</h3>
                   <p className="text-dark-400 text-sm">{machine.desc}</p>
@@ -150,8 +165,18 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-28 bg-gradient-to-r from-accent/10 via-dark-900 to-accent/10 border-y border-accent/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-20 lg:py-28 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/metal-parts.png"
+            alt="Machined Parts"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-dark-950/85"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-transparent to-accent/10"></div>
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             Ready to Start Your Project?
           </h2>

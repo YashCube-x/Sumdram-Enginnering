@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: import.meta.env.PROD
+    ? 'https://sumdram-enginnering-backend.onrender.com/api'
+    : '/api',
 });
 
 export default api;

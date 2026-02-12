@@ -1,5 +1,4 @@
 import { HiCheckCircle } from 'react-icons/hi';
-import ImagePlaceholder from '../components/ImagePlaceholder';
 
 const highlights = [
   'Precision CNC machining for complex components',
@@ -21,8 +20,13 @@ export default function About() {
   return (
     <div className="pt-20 lg:pt-24">
       {/* Hero Banner */}
-      <section className="py-16 lg:py-24 bg-gradient-to-b from-dark-900 to-dark-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/workshop-wide.png" alt="Workshop" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-dark-950/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-900/50 to-dark-950"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-accent text-sm font-semibold uppercase tracking-widest">About Us</span>
             <h1 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-6">
@@ -70,10 +74,16 @@ export default function About() {
             </div>
 
             <div className="space-y-4">
-              <ImagePlaceholder label="Workshop Image" height="h-64" />
+              <div className="rounded-xl overflow-hidden">
+                <img src="/images/workshop-wide.png" alt="Workshop Overview" className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
               <div className="grid grid-cols-2 gap-4">
-                <ImagePlaceholder label="Team at Work" height="h-40" />
-                <ImagePlaceholder label="Machine Close-up" height="h-40" />
+                <div className="rounded-xl overflow-hidden">
+                  <img src="/images/cnc-machining.png" alt="CNC Machining" className="w-full h-40 object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="rounded-xl overflow-hidden">
+                  <img src="/images/metal-parts.png" alt="Machined Parts" className="w-full h-40 object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
               </div>
             </div>
           </div>

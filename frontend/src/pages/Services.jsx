@@ -44,8 +44,13 @@ export default function Services() {
   return (
     <div className="pt-20 lg:pt-24">
       {/* Hero Banner */}
-      <section className="py-16 lg:py-24 bg-gradient-to-b from-dark-900 to-dark-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/cnc-machining.png" alt="CNC Machining" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-dark-950/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-900/50 to-dark-950"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Our Expertise</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-6">
             Machining <span className="text-accent">Services</span>

@@ -13,8 +13,25 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Middleware
-app.use(cors());
+// CORS — allow frontend origins
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://sumdram-enginnering.vercel.app',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, Postman, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.some(o => origin.startsWith(o))) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadsDir));
@@ -30,6 +47,11 @@ app.use('/api/contact', contactRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Sundaram Engineering API is running' });
+});
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({ status: 'OK', message: 'Sundaram Engineering API — use /api/* endpoints' });
 });
 
 // Global error handler
@@ -50,7 +72,7 @@ mongoose
   .then(() => {
     console.log('✅ Connected to MongoDB');
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
