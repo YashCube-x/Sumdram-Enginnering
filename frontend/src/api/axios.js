@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: import.meta.env.PROD
-    ? 'https://sumdram-enginnering-backend.onrender.com/api'
+    ? 'https://sundaram-engineering-api.onrender.com/api'
     : '/api',
 });
 
