@@ -1,17 +1,12 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 require('dotenv').config();
 
-const app = express();
+// Validate Supabase config on startup
+const supabase = require('./lib/supabase');
 
-// Create uploads directory if it doesn't exist
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
+const app = express();
 
 // CORS — allow frontend origins
 const allowedOrigins = [
@@ -22,7 +17,6 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, Postman, etc.)
     if (!origin) return callback(null, true);
     if (allowedOrigins.some(o => origin.startsWith(o))) {
       return callback(null, true);
@@ -34,7 +28,6 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(uploadsDir));
 
 // Routes
 const quoteRoutes = require('./routes/quoteRoutes');
@@ -45,8 +38,13 @@ app.use('/api/quotes', quoteRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Sundaram Engineering API is running' });
+app.get('/api/health', async (req, res) => {
+  const { data, error } = await supabase.from('quotes').select('id').limit(1);
+  res.json({
+    status: error ? 'ERROR' : 'OK',
+    message: 'Sundaram Engineering API',
+    database: error ? 'disconnected' : 'connected',
+  });
 });
 
 // Root route
@@ -63,19 +61,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Connect to MongoDB and start server
+// Start server
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/sundaram-engineering';
-
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    console.log('✅ Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1);
-  });
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
