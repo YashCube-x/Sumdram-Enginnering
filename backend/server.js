@@ -7,11 +7,18 @@ const supabase = require('./lib/supabase');
 
 const app = express();
 
-// CORS — allow all origins (safe because we use Supabase RLS for security)
-app.use(cors());
+// MANUAL CORS headers — runs FIRST on every single request
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-// Handle preflight for all routes
-app.options('*', cors());
+  // Immediately respond to preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
