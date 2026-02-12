@@ -9,18 +9,23 @@ const supabase = require('./lib/supabase');
 const app = express();
 
 // CORS — allow frontend origins
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://sumdram-enginnering.vercel.app',
-  process.env.FRONTEND_URL,
-].filter(Boolean);
-
 app.use(cors({
   origin: function (origin, callback) {
+    // Allow requests with no origin (Postman, curl, server-to-server)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.some(o => origin.startsWith(o))) {
-      return callback(null, true);
-    }
+
+    const allowed = [
+      'http://localhost:5173',
+      'http://localhost:4173',
+      process.env.FRONTEND_URL,
+    ].filter(Boolean);
+
+    // Allow exact matches
+    if (allowed.includes(origin)) return callback(null, true);
+
+    // Allow any *.vercel.app subdomain (covers previews and production)
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
+
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
